@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Getting Started with Create Blocklet
 
 This project was bootstrapped with [Create Blocklet](https://github.com/blocklet/create-blocklet).
@@ -145,3 +146,6 @@ After developing a blocklet, you may need to bundle it. Use `npm run bundle` com
 
 The code is licensed under the Apache 2.0 license found in the
 [LICENSE](LICENSE) file.
+=======
+# block-transaction-demo
+>>>>>>> 1ff8ee87e054ae67230bb1d4d26d57bd80ecc9e0
