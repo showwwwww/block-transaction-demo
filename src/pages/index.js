@@ -1,3 +1,7 @@
 import Home from './home';
 
-export default { Home };
+const Pages = {
+    Home,
+};
+
+export default Pages;

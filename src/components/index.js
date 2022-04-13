@@ -1,3 +1,9 @@
 import Layout from './layout';
+import Input from './input';
 
-export default { Layout };
+const Components = {
+    Layout,
+    Input,
+};
+
+export default Components;
