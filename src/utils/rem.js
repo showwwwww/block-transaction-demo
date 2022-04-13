@@ -5,6 +5,6 @@ function setRem() {
 }
 
 setRem();
-window.onresize = function () {
+window.onresize = () => {
     setRem();
 };

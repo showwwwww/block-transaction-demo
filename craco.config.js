@@ -1,14 +1,13 @@
 const port = process.env.BLOCKLET_PORT || process.env.PORT || 8080;
 const path = require('path');
 
-const pathResolve = (pathUrl) => path.join(__dirname, pathUrl);
-
+const pathResolve = (dir) => path.resolve(__dirname, dir);
 module.exports = {
     webpack: {
         alias: {
-            components: pathResolve('src/components'),
-            utils: pathResolve('src/utils'),
-            '@': pathResolve('src/pages'),
+            '@components': pathResolve('src/components'),
+            '@utils': pathResolve('src/utils'),
+            '@pages': pathResolve('src/pages'),
         },
     },
     devServer: {
