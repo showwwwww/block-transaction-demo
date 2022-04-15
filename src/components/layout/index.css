@@ -37,7 +37,7 @@ html,body,.layout-container {
     padding: 50px 10px;
     box-sizing: border-box;
     z-index: -1;
-    color: purple;
+    color: #82529d;
     display: flex;
     justify-content: center;
 }

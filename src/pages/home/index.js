@@ -17,12 +17,21 @@ function Aside() {
     ));
 }
 
+const mockData = [
+    {
+        Fee: '00000 BTC',
+        Hash: 'csfdsfdsafdsafad',
+    },
+    {
+        next: <p>Test</p>,
+    },
+];
 function Home() {
     return (
         <Components.Layout
             header={<Components.Input />}
             aside={<Aside />}
-            top={<h1>Top</h1>}
+            top={<Components.Table isPagination data={mockData} />}
             bottom={<h1>bottom</h1>}
         />
     );
