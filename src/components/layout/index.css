@@ -49,10 +49,8 @@ html,body,.layout-container {
     width: 73%;
     min-height: 400px;
     margin: 8px;
+    padding: 50px;
     border: 1px solid lightgray;
     border-radius: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     box-shadow: 1px 1px 1px 1px #ccccff;
 }

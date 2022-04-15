@@ -17,12 +17,24 @@ class Table extends React.Component {
         };
     }
 
-    generatePaginationItems = (data, pagination) => {
+    generatePaginationItems = (data, pagination, startValue = 0) => {
         const paginationItems = [];
-        const iterator = Math.min(pagination.count, Math.ceil(data.length / 10)); 
-        for (let i = 0; i < iterator; i++) {
+        let itemsCount = 0;
+        data.forEach((row) => {
+            const keys = Object.keys(row);
+            itemsCount += keys.length;
+        });
+        const iterator = Math.min(pagination.count, itemsCount);
+        for (let i = startValue; i < iterator; i++) {
             paginationItems.push(
-                <button className="my-table-pagination-count-button buttons" type="button" key={`pagination-${i}-key`}>
+                <button
+                    className="my-table-pagination-count-button buttons"
+                    type="button"
+                    key={_.uniqueId()}
+                    onClick={() => {
+                        this.setState({ currentPage: this.generateTableCell(this.tableCell.slice(i + 1, i + 5)) });
+                    }}
+                >
                     {i + 1}
                 </button>
             );
@@ -30,14 +42,14 @@ class Table extends React.Component {
         return paginationItems;
     };
 
-    generateTableCell = (data, isPagination) => {
-        let tableCell = [];
+    generateTableCell = (data, isPagination, isUpdate = false) => {
+        const tableCell = [];
         const dataPerPage = 10;
         data.forEach((row) => {
             const keys = Object.keys(row);
             keys.forEach((key) => {
                 tableCell.push(
-                    <tr key={`tr-${key}`}>
+                    <tr key={_.uniqueId()}>
                         <td className="my-table-row-key">{key}</td>
                         <td className="my-table-row-value">{row[key]}</td>
                     </tr>
@@ -45,7 +57,10 @@ class Table extends React.Component {
             });
         });
         if (isPagination) {
-            tableCell = tableCell.slice(0, dataPerPage + 1);
+            if (!isUpdate) {
+                this.tableCell = tableCell;
+            }
+            return tableCell.slice(0, dataPerPage + 1);
         }
         return tableCell;
     };
@@ -67,7 +82,7 @@ class Table extends React.Component {
                                 </tr>
                             )}
                         </thead>
-                        <tbody className="my-table-display-data-tbody">
+                        <tbody className="my-table-tbody">
                             {currentPage.length > 0 ? (
                                 currentPage.map((item) => item)
                             ) : (

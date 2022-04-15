@@ -7,13 +7,22 @@
     margin: 0 auto;
 }
 
+.my-table-top {
+    height: 90%;
+}
+
+.my-table-bottom {
+    height: 10%;
+    position: relative;
+}
+
 .my-table-display-data {
     color: rgb(53, 63, 82);
     text-transform: none;
     font-style: normal;
 }
 
-.my-table-display-data-tbody {
+.my-table-tbody {
     font-weight: 500;
     font-size: 14px;
 }
