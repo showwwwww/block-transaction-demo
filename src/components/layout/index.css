@@ -53,4 +53,5 @@ html,body,.layout-container {
     border: 1px solid lightgray;
     border-radius: 60px;
     box-shadow: 1px 1px 1px 1px #ccccff;
+    overflow: hidden;
 }

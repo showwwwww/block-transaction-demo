@@ -39,7 +39,7 @@
     -o-animation: unfold 0.5s; /* Opera */
 
     border-radius: 40px;
-    width: 300px;
+    width: 500px;
     z-index: 10;
 }
 
@@ -52,7 +52,7 @@
     }
     50% {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     100% {
@@ -71,7 +71,7 @@
     }
     50% {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     100% {
@@ -90,7 +90,7 @@
     }
     50% {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     100% {
@@ -109,7 +109,7 @@
     }
     50% {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     100% {
@@ -128,7 +128,7 @@
     }
     to {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
 }
@@ -142,7 +142,7 @@
     }
     to {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
 }
@@ -156,7 +156,7 @@
     }
     to {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
 }
@@ -170,7 +170,7 @@
     }
     to {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
 }
@@ -179,7 +179,7 @@
 {
     from {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     to {
@@ -193,7 +193,7 @@
 {
     from {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     to {
@@ -207,7 +207,7 @@
 {
     from {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     to {
@@ -221,7 +221,7 @@
 {
     from {
         border-radius: 40px;
-        width: 300px;
+        width: 500px;
         z-index: 10;
     }
     to {
