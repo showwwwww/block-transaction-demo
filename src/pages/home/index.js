@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Input, Tag } from 'antd';
+import { Table, Input, Tag, message } from 'antd';
 import _ from 'lodash';
 import dayjs from 'dayjs';
 
@@ -38,11 +38,13 @@ class Home extends React.Component {
                 title: 'Key',
                 dataIndex: 'name',
                 key: 'name',
+                width: 150,
             },
             {
                 title: 'Value',
                 dataIndex: 'value',
                 key: 'value',
+                ellipsis: true,
             },
         ];
 
@@ -51,33 +53,42 @@ class Home extends React.Component {
                 title: 'Key',
                 dataIndex: 'name',
                 key: 'name',
+                width: 100,
             },
             {
                 title: 'Value',
                 dataIndex: 'value',
                 key: 'value',
+                ellipsis: true,
+                align: 'center',
             },
             {
                 title: 'Next',
                 dataIndex: 'next',
                 key: 'next',
+                ellipsis: true,
+                align: 'center',
             },
             {
                 title: 'Message',
                 dataIndex: 'message',
                 key: 'message',
+                ellipsis: true,
+                align: 'center',
             },
         ];
+    }
+
+    componentDidMount() {
         this.initial();
     }
 
     initial = (initialHash = '00000000000000000007878ec04bb2b2e12317804810f4c26033585b3f81ffaa') => {
-        // this.setState({ isLoading: true });
+        this.setState({ isLoading: true });
         const topDataSource = [];
-        const bottomDataSource = [];
+        let bottomDataSource = [];
         request(apis.blockHash(initialHash))
             .then((data) => {
-                console.log(data);
                 const keys = Object.keys(data);
                 keys.forEach((key) => {
                     if (key === 'height') {
@@ -86,16 +97,23 @@ class Home extends React.Component {
                         this.mindedTime = dayjs(data[key] * 1000);
                     }
                     if (key === 'tx') {
-                        data[key].forEach((transaction) => {
-                            bottomDataSource.push(...this.generateTransactions(transaction));
-                        });
+                        bottomDataSource = this.generateTransactions(data);
                     }
                     topDataSource.push(this.generateTop(data, key));
                 });
+                if (data.error) {
+                    throw new Error();
+                }
             })
             .then(() => {
-                console.log(topDataSource);
-                this.setState({ topDataSource, bottomDataSource, isLoading: false });
+                message.success('data updated!');
+                this.setState({ topDataSource, bottomDataSource });
+            })
+            .catch(() => {
+                message.error('unexpected error!');
+            })
+            .finally(() => {
+                this.setState({ isLoading: false });
             });
     };
 
@@ -105,7 +123,7 @@ class Home extends React.Component {
         const arr = [];
         while (divider > 0) {
             arr.push(divider % width);
-            divider = Math.ceil(divider / width);
+            divider = Math.floor(divider / width);
         }
         return arr.reverse().join(',');
     }
@@ -113,7 +131,9 @@ class Home extends React.Component {
     generateTop = (data, key) => {
         const obj = {};
         if (key === 'time') {
-            obj.value = this.mindedTime.$d;
+            const timeArr = this.mindedTime.$d.toString().split(' ');
+            this.setState({ time: timeArr.slice(0, timeArr.length - 3).join(' ') });
+            obj.value = dayjs(this.mindedTime.$4).format('YYYY-MM-DD HH:mm');
             obj.name = 'Timestamp';
         } else if (key === 'height') {
             obj.value = this.formatNumber(data[key]);
@@ -152,35 +172,51 @@ class Home extends React.Component {
         return res;
     };
 
-    generateTransactions = (transaction) => {
+    generateTransactions = (data) => {
         const rows = [];
-        rows.push({
-            key: _.uniqueId(),
-            name: 'Fee',
-            value: (
-                <>
-                    <p className="table-cell-item">{`${(transaction?.fee / 10e7).toFixed(8)} BTC`}</p>
-                    {/* <p className="table-cell-item">{`${} sat/B - ${} sta/WU - ${transaction.size} bytes`}</p>
-                    <p className="table-cell-item">{`${} sat/vByte - ${} virtual bytes`}</p> */}
-                </>
-            ),
-            next: '',
-            message: (
-                <Tag color="green">{`${(this.generateSumItems(transaction.out, 'value') / 10e7).toFixed(8)} BTC`}</Tag>
-            ),
+        const { tx } = data;
+        tx.forEach((transaction) => {
+            rows.push({
+                key: _.uniqueId(),
+                name: 'Fee',
+                value: (
+                    <>
+                        <p className="table-cell-item">{`${(transaction?.fee / 10e7).toFixed(8)} BTC`}</p>
+                        <p className="table-cell-item">{`mock sat/B - mock sta/WU - ${transaction.size} bytes`}</p>
+                        <p className="table-cell-item">mock sat/vByte - mock virtual bytes</p>
+                    </>
+                ),
+                next: '',
+                message: (
+                    <Tag color="green">{`${(this.generateSumItems(transaction.out, 'value') / 10e7).toFixed(
+                        8
+                    )} BTC`}</Tag>
+                ),
+            });
+            rows.push({
+                key: _.uniqueId(),
+                name: 'Hash',
+                value: (
+                    <>
+                        <p className="table-cell-item hash">{`${data.hash}`}</p>
+                        {transaction?.inputs.map((item) => (
+                            <p className="table-cell-item cell" key={_.uniqueId()}>
+                                {`${item.prev_out.addr}`}
+                                <Tag color="yellow">{`${(item.prev_out.value / 10e7).toFixed(8)} BTC`}</Tag>
+                            </p>
+                        ))}
+                    </>
+                ),
+                next: '',
+                message: this.mindedTime,
+            });
         });
-        rows.push({
-            key: _.uniqueId(),
-            name: 'Hash',
-            value: `${(transaction?.fee / 10e7).toFixed(8)} BTC`,
-            next: '',
-            message: this.mindedTime,
-        });
+
         return rows;
     };
 
     render() {
-        const { isLoading, topDataSource, bottomDataSource, title } = this.state;
+        const { isLoading, topDataSource, bottomDataSource, title, time } = this.state;
         return (
             <Components.Layout
                 header={
@@ -203,7 +239,7 @@ class Home extends React.Component {
                     <>
                         <h1>{`Block ${title}`}</h1>
                         <p>
-                            {`This block was mined on December 22, 2020 at 3:09 PM GMT+8 by Poolin. It currently has 69,353 confirmations on the Bitcoin blockchain.
+                            {`This block was mined on ${time} by Poolin. It currently has 69,353 confirmations on the Bitcoin blockchain.
 The miner(s) of this block earned a total reward of 6.25000000 BTC ($250,918.00). The reward consisted of a base reward of 6.25000000 BTC ($250,918.00) with an additional 0.16583560 BTC ($6,657.78) reward paid as fees of the 912 transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.
 A total of 306.51676953 BTC ($12,305,691.96) were sent in the block with the average transaction being 0.33609295 BTC ($13,493.08).  Learn more about how blocks work.`}
                         </p>

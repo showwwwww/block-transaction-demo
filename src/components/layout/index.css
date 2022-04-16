@@ -29,10 +29,8 @@ html,body,.layout-container {
     min-width: 100px;
     max-width: 300px;
     width: 25%;
-    background-color: orange;
-    border-left: 15px dashed lightgray;
-    border-right: 15px dashed lightgray;
-    box-shadow: 1px 1px 1px 1px #ab7fc5;
+    background-color: black;
+    box-shadow: 1px 1px 1px 1px lightgray;
     opacity: 0.9;
     padding: 50px 10px;
     box-sizing: border-box;
@@ -52,6 +50,6 @@ html,body,.layout-container {
     padding: 50px;
     border: 1px solid lightgray;
     border-radius: 60px;
-    box-shadow: 1px 1px 1px 1px #ccccff;
+    box-shadow: 1px 1px 1px 1px #dee8f0;
     overflow: hidden;
 }

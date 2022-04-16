@@ -1,6 +1,15 @@
 .table-cell-item {
     margin-bottom: -6px;
     padding: 0;
-    font-size: 12px;
+    font-size: 14px;
     color: rgb(53, 63, 82);
+}
+
+.hash {
+    margin-bottom: 5px;
+    color: rgb(12, 108, 242);
+}
+
+.cell {
+    margin-bottom: 2px;
 }
