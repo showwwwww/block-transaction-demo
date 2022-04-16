@@ -12,6 +12,7 @@ module.exports = {
         },
     },
     babel: {
+        presets: ['@babel/preset-env', '@babel/preset-react'],
         plugins: [
             [
                 'import',
@@ -21,6 +22,8 @@ module.exports = {
                     style: 'css',
                 },
             ],
+            '@babel/plugin-syntax-jsx',
+            '@babel/plugin-transform-react-jsx',
         ],
     },
     devServer: {
